@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project: Power Line Fingerprinting (NILM)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Chosen Palette: Slate & Indigo - Clean, tech-focused, professional. Background: slate-50, Text: slate-800, Accents: indigo-600 -->
+    <!-- Application Structure Plan: A single-page scrolling presentation designed like a product landing page or an interactive project pitch. 
+         1. Hero: High-impact summary ("Bijli ka X-ray"). 
+         2. Problems Solved: Grid layout for quick readability. 
+         3. System Architecture: Interactive stepper explaining the data flow from hardware to software, paired with a dynamic chart to visualize the abstract concept of FFT. 
+         4. Project Timeline: Tabbed interface to break down the 3-month plan without overwhelming text. 
+         5. Resume Impact: Highlight the key selling points for recruiters. 
+         This structure chunks technical information logically, moving from 'Why' to 'How' to 'Execution'. -->
+    <!-- Visualization & Content Choices: 
+         - Problems: Card grid -> Easy scanning. 
+         - Architecture Flow: HTML/CSS stepper + JS logic -> Interactive learning of the signal path. 
+         - FFT Visualization: Chart.js Line Chart -> Crucial for explaining how ML sees electricity (frequency domain). Interactive updating based on stepper. 
+         - Timeline: Tabs -> Space-saving, focuses user on one phase at a time. 
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. HTML/CSS shapes and Unicode used for visual cues. -->
+
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .step-active {
+            border-color: #4f46e5;
+            background-color: #e0e7ff;
+        }
+        
+        .tab-active {
+            border-bottom-width: 2px;
+            border-color: #4f46e5;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-200 selection:text-indigo-900">
+
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 font-bold text-xl text-indigo-700 tracking-tight">
+                    ⚡ NILM Prototype
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#overview" class="text-slate-600 hover:text-indigo-600 transition-colors">Overview</a>
+                    <a href="#problems" class="text-slate-600 hover:text-indigo-600 transition-colors">Problems Solved</a>
+                    <a href="#architecture" class="text-slate-600 hover:text-indigo-600 transition-colors">How it Works</a>
+                    <a href="#timeline" class="text-slate-600 hover:text-indigo-600 transition-colors">Roadmap</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <section id="overview" class="py-12 md:py-20 text-center">
+            <div class="inline-block bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-semibold mb-6 shadow-sm border border-indigo-200">
+                B.Tech Project Idea • Embedded ML • Novel Hardware
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
+                Power Line Fingerprinting
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-8">
+                "Ghar ki bijli ka X-Ray machine." Ek single smart plug jo ML use karke batata hai kaunsa appliance ON hai, bina kisi extra wiring ya expensive sensors ke.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-12 text-left">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="text-3xl mb-4">🎯</div>
+                    <h3 class="font-bold text-lg mb-2">Beat the Crowd</h3>
+                    <p class="text-slate-600 text-sm">Most projects are basic IoT. Running quantized Neural Networks on a microcontroller (TinyML) is a niche skill.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="text-3xl mb-4">🔬</div>
+                    <h3 class="font-bold text-lg mb-2">Real Research</h3>
+                    <p class="text-slate-600 text-sm">Directly lifted from university research (NILM). You build the hardware prototype that PhD papers often skip.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="text-3xl mb-4">📈</div>
+                    <h3 class="font-bold text-lg mb-2">High Success Rate</h3>
+                    <p class="text-slate-600 text-sm">~90% accuracy expected with 6 distinct appliances and 500+ training samples. Highly achievable in 3 months.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="problems" class="py-16">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Ye kya problem solve karta hai?</h2>
+                <p class="text-lg text-slate-600">3 real-world problems jinka solution sirf ek ₹650 ka ESP32 device hai.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow border-t-4 border-red-400">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3 text-slate-800">1. Blind Electricity Bills</h3>
+                        <p class="text-slate-600 mb-4">Ghar mein ek meter hai jo sirf total ₹2000 bill dikhata hai. Kis appliance ne kitni bijli khaayi? Kisi ko nahi pata.</p>
+                        <div class="bg-slate-50 p-3 rounded border border-slate-200 text-sm">
+                            <strong class="text-indigo-600">Solution:</strong> Bina wiring badle, ye batayega "AC ne ₹800, Fridge ne ₹300 liye".
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow border-t-4 border-amber-400">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3 text-slate-800">2. Safety & Appliance Left ON</h3>
+                        <p class="text-slate-600 mb-4">Office gaye, iron ya geyser ON chhod aaye. Yaad nahi, bill badhega, aur fire danger bhi hai.</p>
+                        <div class="bg-slate-50 p-3 rounded border border-slate-200 text-sm">
+                            <strong class="text-indigo-600">Solution:</strong> Phone pe real-time alert aayega: "Geyser 3 ghante se ON hai".
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow border-t-4 border-green-400">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3 text-slate-800">3. High Cost of Smart Homes</h3>
+                        <p class="text-slate-600 mb-4">Har appliance ke liye Alexa smart plug lagana mehenga hai (10 plugs = ₹15,000+).</p>
+                        <div class="bg-slate-50 p-3 rounded border border-slate-200 text-sm">
+                            <strong class="text-indigo-600">Solution:</strong> Ek central device puri building monitor karta hai. Cost effective.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="architecture" class="py-16 bg-white rounded-3xl p-8 shadow-sm border border-slate-200 my-12">
+            <div class="mb-10 text-center">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Architecture: Data ka Safar</h2>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto">Samjho ye ek doctor ka blood test hai. Hardware sample leta hai, Software usko diagnose karta hai.</p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-12">
+                <div class="lg:w-1/3">
+                    <div class="space-y-4" id="stepper-container">
+                        <button class="w-full text-left p-4 rounded-xl border-2 transition-all step-active" data-step="1">
+                            <div class="font-bold text-indigo-800">1. Wall Socket (230V AC)</div>
+                            <div class="text-sm text-slate-600 mt-1">Raw current with "harmonic noise" mix.</div>
+                        </button>
+                        <button class="w-full text-left p-4 rounded-xl border-2 border-slate-200 hover:border-indigo-300 transition-all" data-step="2">
+                            <div class="font-bold text-slate-700">2. ZMPT101B Module</div>
+                            <div class="text-sm text-slate-600 mt-1">Converts dangerous 230V to safe 3.3V signal.</div>
+                        </button>
+                        <button class="w-full text-left p-4 rounded-xl border-2 border-slate-200 hover:border-indigo-300 transition-all" data-step="3">
+                            <div class="font-bold text-slate-700">3. ESP32 ADC</div>
+                            <div class="text-sm text-slate-600 mt-1">Samples voltage 10,000 times/sec into digital numbers.</div>
+                        </button>
+                        <button class="w-full text-left p-4 rounded-xl border-2 border-slate-200 hover:border-indigo-300 transition-all" data-step="4">
+                            <div class="font-bold text-slate-700">4. Firmware (FFT)</div>
+                            <div class="text-sm text-slate-600 mt-1">Extracts frequency pattern (Fingerprint).</div>
+                        </button>
+                        <button class="w-full text-left p-4 rounded-xl border-2 border-slate-200 hover:border-indigo-300 transition-all" data-step="5">
+                            <div class="font-bold text-slate-700">5. TFLite ML Model</div>
+                            <div class="text-sm text-slate-600 mt-1">Analyzes pattern -> "Fridge is ON".</div>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="lg:w-2/3 bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col">
+                    <h3 id="step-title" class="text-2xl font-bold text-indigo-700 mb-2">1. The Raw Signal</h3>
+                    <p id="step-desc" class="text-slate-700 mb-6 min-h-[60px]">230V AC current har waqt flow ho rahi hai. Isme har appliance apna "gaandi awaaz" mix kar raha hai. Ye signal bahut dangerous hai.</p>
+                    
+                    <div class="flex-grow flex items-center justify-center">
+                        <div class="chart-container w-full h-full" id="chart-wrapper">
+                            <canvas id="signalChart"></canvas>
+                        </div>
+                        <div id="result-display" class="hidden w-full h-64 flex flex-col items-center justify-center bg-indigo-900 rounded-xl text-white shadow-inner">
+                            <div class="text-lg text-indigo-200 mb-2">OLED / Dashboard Output</div>
+                            <div class="text-4xl font-mono font-bold tracking-wider text-green-400">FRIDGE ON</div>
+                            <div class="mt-4 flex space-x-4 text-sm">
+                                <span class="bg-indigo-800 px-3 py-1 rounded">Confidence: 94%</span>
+                                <span class="bg-indigo-800 px-3 py-1 rounded">Power: 150W</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="timeline" class="py-16">
+            <div class="mb-10 text-center">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Project Roadmap</h2>
+                <p class="text-lg text-slate-600">Realistic 3-month timeline. Step-by-step implementation guide.</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="flex border-b border-slate-200">
+                    <button class="flex-1 py-4 text-center font-medium tab-btn tab-active bg-slate-50" data-tab="month1">Month 1: Hardware & Data</button>
+                    <button class="flex-1 py-4 text-center font-medium text-slate-500 tab-btn hover:bg-slate-50" data-tab="month2">Month 2: ML Training</button>
+                    <button class="flex-1 py-4 text-center font-medium text-slate-500 tab-btn hover:bg-slate-50" data-tab="month3">Month 3: Deployment</button>
+                </div>
+                
+                <div class="p-8">
+                    <div id="content-month1" class="tab-content block">
+                        <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center"><span class="text-2xl mr-2">🛠️</span> Kya karna hai?</h3>
+                        <p class="text-slate-600 mb-6">ZMPT101B + ESP32 circuit breadboard pe banao. Arduino code likho jo raw voltage readings SD card pe save kare. Har appliance ke liye 500 samples collect karo.</p>
+                        <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+                            <h4 class="font-bold text-indigo-900 mb-1">Output Milestone:</h4>
+                            <p class="text-indigo-800 text-sm font-mono">CSV files: fridge_data.csv, ac_data.csv, charger_data.csv. Hardware confirmed working.</p>
+                        </div>
+                    </div>
+                    
+                    <div id="content-month2" class="tab-content hidden">
+                        <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center"><span class="text-2xl mr-2">🧠</span> Kya karna hai?</h3>
+                        <p class="text-slate-600 mb-6">Laptop pe Python mein CSV data load karo. FFT features nikalo. Neural network train karo TensorFlow mein. Accuracy check karo. TFLite format mein convert karo (Target size < 50KB).</p>
+                        <div class="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+                            <h4 class="font-bold text-indigo-900 mb-1">Output Milestone:</h4>
+                            <p class="text-indigo-800 text-sm font-mono">model.tflite file. Ye tera trained brain hai. Check confusion matrix for accuracy.</p>
+                        </div>
+                    </div>
+                    
+                    <div id="content-month3" class="tab-content hidden">
+                        <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center"><span class="text-2xl mr-2">🚀</span> Kya karna hai?</h3>
+                        <p class="text-slate-600 mb-6">model.tflite ko C array mein convert karo. ESP32 firmware mein TFLite Micro library add karo. Real-time inference test karo. MQTT se Node-RED dashboard connect karo.</p>
+                        <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+                            <h4 class="font-bold text-green-900 mb-1">Final Result:</h4>
+                            <p class="text-green-800 text-sm font-mono">Complete working system! Plug lagao, OLED pe result dekho, phone pe data. Ready for demo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center mt-12">
+        <div class="max-w-6xl mx-auto px-4 text-sm">
+            <p>Interactive Concept Note for B.Tech Final Year Project</p>
+            <p class="mt-2 text-slate-500">Domains: Embedded Systems | TinyML | Signal Processing</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data for Architecture Stepper
+        const stepData = {
+            1: {
+                title: "1. The Raw Signal (Wall Socket)",
+                desc: "230V AC current har waqt flow ho rahi hai. Isme har appliance apna 'harmonic noise' mix kar raha hai. Ye signal bahut dangerous hai aur seedha MCU mein nahi jaa sakta.",
+                chartType: 'raw'
+            },
+            2: {
+                title: "2. Isolation & Scaling (ZMPT101B)",
+                desc: "Ye transformer module middleman hai. 230V ko leke 0-3.3V mein convert karta hai safely (galvanic isolation). Ab ESP32 jalega nahi.",
+                chartType: 'scaled'
+            },
+            3: {
+                title: "3. Digitization (ESP32 ADC)",
+                desc: "ESP32 ka 12-bit ADC (Analog-to-Digital Converter) har 0.1ms pe voltage read karta hai (10k samples/sec). Ab hamare paas RAM mein numbers ka array hai.",
+                chartType: 'digital'
+            },
+            4: {
+                title: "4. Feature Extraction (FFT)",
+                desc: "Firmware (C++) in numbers pe Fast Fourier Transform (FFT) lagata hai. Ye time-domain data ko frequency-domain mein badalta hai. Ye appliance ka 'Fingerprint' hai.",
+                chartType: 'fft'
+            },
+            5: {
+                title: "5. ML Inference & Output",
+                desc: "TFLite Micro model ye FFT pattern input leta hai aur detect karta hai kaunsa appliance hai. Result OLED ya dashboard pe jata hai.",
+                chartType: 'result'
+            }
+        };
+
+        // Chart.js Configuration
+        let myChart = null;
+        const ctx = document.getElementById('signalChart').getContext('2d');
+
+        // Helper function to generate dummy sine wave data
+        function generateSineData(frequency, noiseLevel, scale) {
+            const data = [];
+            const labels = [];
+            for (let i = 0; i < 100; i++) {
+                labels.push(i);
+                let val = Math.sin(i * frequency) * scale;
+                // Add some higher frequency noise to simulate appliance interference
+                val += Math.sin(i * frequency * 5) * (scale * 0.2); 
+                val += (Math.random() - 0.5) * noiseLevel;
+                data.push(val);
+            }
+            return { labels, data };
+        }
+
+        // Helper function to generate dummy FFT data
+        function generateFFTData() {
+            const labels = ['50Hz (Base)', '150Hz (3rd Har)', '250Hz (5th)', '350Hz', '450Hz', '550Hz'];
+            const data = [100, 45, 10, 5, 2, 0.5]; // Example fingerprint
+            return { labels, data };
+        }
+
+        function renderChart(type) {
+            if (myChart) {
+                myChart.destroy();
+            }
+
+            const chartWrapper = document.getElementById('chart-wrapper');
+            const resultDisplay = document.getElementById('result-display');
+
+            if (type === 'result') {
+                chartWrapper.classList.add('hidden');
+                resultDisplay.classList.remove('hidden');
+                return;
+            } else {
+                chartWrapper.classList.remove('hidden');
+                resultDisplay.classList.add('hidden');
+            }
+
+            let config = {};
+
+            if (type === 'raw' || type === 'scaled' || type === 'digital') {
+                let scale = type === 'raw' ? 230 : (type === 'scaled' ? 3.3 : 4096);
+                let noise = type === 'digital' ? 50 : 2; // Add quantization noise for digital
+                const { labels, data } = generateSineData(0.2, noise, scale);
+                
+                let yAxisLabel = type === 'digital' ? 'ADC Value (0-4095)' : 'Voltage (V)';
+                let chartTitle = type === 'raw' ? '230V AC with Noise' : (type === 'scaled' ? '3.3V Scaled AC' : 'Digital Sample Array');
+                let color = type === 'digital' ? '#10b981' : '#4f46e5';
+                let isStepped = type === 'digital';
+
+                config = {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Signal Amplitude',
+                            data: data,
+                            borderColor: color,
+                            borderWidth: 2,
+                            tension: isStepped ? 0 : 0.4,
+                            stepped: isStepped,
+                            pointRadius: isStepped ? 1 : 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: { display: true, text: chartTitle, font: {size: 16} },
+                            legend: { display: false }
+                        },
+                        scales: {
+                            x: { display: false },
+                            y: { title: { display: true, text: yAxisLabel } }
+                        },
+                        animation: { duration: 500 }
+                    }
+                };
+            } else if (type === 'fft') {
+                const { labels, data } = generateFFTData();
+                config = {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Magnitude',
+                            data: data,
+                            backgroundColor: '#8b5cf6',
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            title: { display: true, text: 'Frequency Spectrum (Fingerprint)', font: {size: 16} },
+                            tooltip: {
+                                callbacks: {
+                                    title: function(context) {
+                                        // Wrap long labels if needed (16 char logic generally applies to x-axis, but good practice here too)
+                                        let title = context[0].label;
+                                        return title.length > 16 ? title.match(/.{1,16}/g).join('\n') : title;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, title: { display: true, text: 'Magnitude' } },
+                            x: { 
+                                ticks: {
+                                    callback: function(value) {
+                                        let label = this.getLabelForValue(value);
+                                        return label.length > 16 ? label.substring(0, 13) + '...' : label;
+                                    }
+                                }
+                            }
+                        },
+                        animation: { duration: 800, easing: 'easeOutQuart' }
+                    }
+                };
+            }
+
+            myChart = new Chart(ctx, config);
+        }
+
+        // Initialize Stepper Logic
+        const stepButtons = document.querySelectorAll('#stepper-container button');
+        const stepTitle = document.getElementById('step-title');
+        const stepDesc = document.getElementById('step-desc');
+
+        stepButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Update active class
+                stepButtons.forEach(b => {
+                    b.classList.remove('step-active', 'border-indigo-500', 'bg-indigo-50');
+                    b.classList.add('border-slate-200');
+                    b.querySelector('div.font-bold').classList.replace('text-indigo-800', 'text-slate-700');
+                });
+                
+                const targetBtn = e.currentTarget;
+                targetBtn.classList.remove('border-slate-200');
+                targetBtn.classList.add('step-active');
+                targetBtn.querySelector('div.font-bold').classList.replace('text-slate-700', 'text-indigo-800');
+
+                // Update content
+                const stepNum = targetBtn.getAttribute('data-step');
+                const data = stepData[stepNum];
+                
+                stepTitle.textContent = data.title;
+                stepDesc.textContent = data.desc;
+                
+                // Update Chart
+                renderChart(data.chartType);
+            });
+        });
+
+        // Initialize Timeline Tab Logic
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Reset tabs
+                tabBtns.forEach(b => {
+                    b.classList.remove('tab-active', 'bg-slate-50');
+                    b.classList.add('text-slate-500');
+                });
+                tabContents.forEach(c => {
+                    c.classList.remove('block');
+                    c.classList.add('hidden');
+                });
+
+                // Activate clicked tab
+                btn.classList.add('tab-active', 'bg-slate-50');
+                btn.classList.remove('text-slate-500');
+                
+                const targetId = 'content-' + btn.getAttribute('data-tab');
+                document.getElementById(targetId).classList.remove('hidden');
+                document.getElementById(targetId).classList.add('block');
+            });
+        });
+
+        // Initial Chart Render
+        renderChart('raw');
+
+    </script>
+</body>
+</html>

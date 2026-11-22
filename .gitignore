@@ -1,0 +1,31 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Environments
+.env
+.venv
+env/
+venv/
+
+# Scratch & test outputs
+*.tmp
+temp/
+scratch/
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Datasets and archives (prevent bloating git)
+*.zip
+*.tar.gz
+ML/data/raw/*
+!ML/data/raw/.gitkeep
+ML/data/interim/*
+!ML/data/interim/.gitkeep
+ML/data/processed/*
+!ML/data/processed/.gitkeep
+

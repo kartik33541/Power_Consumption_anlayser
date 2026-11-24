@@ -9,10 +9,14 @@ No persistent scratch files or test artifacts are left in the repository.
 
 import os
 import shutil
+import sys
 import tempfile
 import unittest
+from pathlib import Path
 import numpy as np
 import yaml
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from datasets.base import SignalRecord, BaseDatasetAdapter
 from preprocessing.cleaning import clean_signal, remove_dc_bias

@@ -4,11 +4,26 @@ __pycache__/
 *$py.class
 *.so
 
-# Environments
+# Environments and Secrets
 .env
+.env.*
+*.key
+*.pem
+*.token
+*.cert
+*.pfx
+credentials.json
+client_secret*.json
 .venv
 env/
 venv/
+
+# IDE and Agent configurations
+.vscode/
+.idea/
+.agents/
+*.swp
+*.swo
 
 # Scratch & test outputs
 *.tmp
@@ -28,4 +43,6 @@ ML/data/interim/*
 !ML/data/interim/.gitkeep
 ML/data/processed/*
 !ML/data/processed/.gitkeep
+!ML/data/processed/dataset_v1.npz
+!ML/data/processed/split_manifest_v1.json
 

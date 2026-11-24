@@ -8,9 +8,12 @@ Follows the single-record-first development and verification sequence:
 5. Error handling and dataset info
 """
 
+import sys
 import unittest
 from pathlib import Path
 import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from datasets.plaid_adapter import PLAIDAdapter
 from datasets.base import SignalRecord

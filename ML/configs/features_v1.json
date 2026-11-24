@@ -1,0 +1,465 @@
+{
+  "version": "1.0.0",
+  "phase": "Phase 7 \u2014 Feature Selection & Ablation Analysis",
+  "total_candidates": 111,
+  "pruned_collinear_count": 61,
+  "retained_uncorrelated_count": 50,
+  "final_selected_count": 16,
+  "collinearity_threshold": 0.9,
+  "selected_features": [
+    "elec_power_factor",
+    "raw_current_kurtosis",
+    "raw_current_mean_abs",
+    "mode_3_form_factor",
+    "mode_1_peak_to_peak",
+    "mode_0_center_frequency_hz",
+    "mode_2_center_frequency_hz",
+    "mode_3_spectral_centroid",
+    "elec_voltage_thd",
+    "transient_inrush_ratio",
+    "mode_1_kurtosis",
+    "mode_4_spectral_centroid",
+    "elec_displacement_power_factor",
+    "mode_2_kurtosis",
+    "mode_4_crest_factor",
+    "mode_4_peak_to_peak"
+  ],
+  "feature_details": [
+    {
+      "name": "elec_power_factor",
+      "mutual_information": 1.6298,
+      "tree_importance": 0.0561
+    },
+    {
+      "name": "raw_current_kurtosis",
+      "mutual_information": 1.6076,
+      "tree_importance": 0.039
+    },
+    {
+      "name": "raw_current_mean_abs",
+      "mutual_information": 1.7514,
+      "tree_importance": 0.033
+    },
+    {
+      "name": "mode_3_form_factor",
+      "mutual_information": 1.2213,
+      "tree_importance": 0.0394
+    },
+    {
+      "name": "mode_1_peak_to_peak",
+      "mutual_information": 1.4872,
+      "tree_importance": 0.0318
+    },
+    {
+      "name": "mode_0_center_frequency_hz",
+      "mutual_information": 1.4128,
+      "tree_importance": 0.0332
+    },
+    {
+      "name": "mode_2_center_frequency_hz",
+      "mutual_information": 1.1764,
+      "tree_importance": 0.0364
+    },
+    {
+      "name": "mode_3_spectral_centroid",
+      "mutual_information": 1.2187,
+      "tree_importance": 0.0323
+    },
+    {
+      "name": "elec_voltage_thd",
+      "mutual_information": 1.1086,
+      "tree_importance": 0.033
+    },
+    {
+      "name": "transient_inrush_ratio",
+      "mutual_information": 2.6616,
+      "tree_importance": 0.0
+    },
+    {
+      "name": "mode_1_kurtosis",
+      "mutual_information": 1.33,
+      "tree_importance": 0.0269
+    },
+    {
+      "name": "mode_4_spectral_centroid",
+      "mutual_information": 1.1481,
+      "tree_importance": 0.0288
+    },
+    {
+      "name": "elec_displacement_power_factor",
+      "mutual_information": 1.3991,
+      "tree_importance": 0.0234
+    },
+    {
+      "name": "mode_2_kurtosis",
+      "mutual_information": 1.2339,
+      "tree_importance": 0.0265
+    },
+    {
+      "name": "mode_4_crest_factor",
+      "mutual_information": 1.002,
+      "tree_importance": 0.0298
+    },
+    {
+      "name": "mode_4_peak_to_peak",
+      "mutual_information": 1.1844,
+      "tree_importance": 0.0257
+    }
+  ],
+  "drop_log_summary": [
+    {
+      "dropped": "raw_current_rms",
+      "correlated_with": "elec_current_rms",
+      "r": 1.0,
+      "reason": "Lower Mutual Information (1.6541 vs 1.6918)"
+    },
+    {
+      "dropped": "raw_current_peak",
+      "correlated_with": "elec_current_peak",
+      "r": 1.0,
+      "reason": "Deterministic alphabetical tie-breaker"
+    },
+    {
+      "dropped": "raw_current_peak_to_peak",
+      "correlated_with": "elec_current_ptp",
+      "r": 1.0,
+      "reason": "Deterministic alphabetical tie-breaker"
+    },
+    {
+      "dropped": "raw_current_crest_factor",
+      "correlated_with": "elec_current_crest_factor",
+      "r": 1.0,
+      "reason": "Lower Mutual Information (1.3917 vs 1.4157)"
+    },
+    {
+      "dropped": "raw_current_form_factor",
+      "correlated_with": "elec_current_form_factor",
+      "r": 1.0,
+      "reason": "Lower Priority Tier (0 vs 2)"
+    },
+    {
+      "dropped": "raw_voltage_rms",
+      "correlated_with": "elec_voltage_rms",
+      "r": 1.0,
+      "reason": "Lower Priority Tier (0 vs 4)"
+    },
+    {
+      "dropped": "raw_voltage_peak",
+      "correlated_with": "elec_voltage_peak",
+      "r": 1.0,
+      "reason": "Deterministic alphabetical tie-breaker"
+    },
+    {
+      "dropped": "raw_voltage_peak_to_peak",
+      "correlated_with": "elec_voltage_ptp",
+      "r": 1.0,
+      "reason": "Deterministic alphabetical tie-breaker"
+    },
+    {
+      "dropped": "raw_voltage_crest_factor",
+      "correlated_with": "elec_voltage_crest_factor",
+      "r": 1.0,
+      "reason": "Deterministic alphabetical tie-breaker"
+    },
+    {
+      "dropped": "raw_voltage_form_factor",
+      "correlated_with": "elec_voltage_form_factor",
+      "r": 1.0,
+      "reason": "Deterministic alphabetical tie-breaker"
+    },
+    {
+      "dropped": "mode_0_energy_ratio",
+      "correlated_with": "vmd_fundamental_energy_ratio",
+      "r": 1.0,
+      "reason": "Lower Mutual Information (1.4590 vs 1.4813)"
+    },
+    {
+      "dropped": "vmd_harmonic_energy_ratio",
+      "correlated_with": "vmd_fundamental_energy_ratio",
+      "r": 1.0,
+      "reason": "Deterministic alphabetical tie-breaker"
+    },
+    {
+      "dropped": "mode_2_variance",
+      "correlated_with": "mode_2_energy",
+      "r": 1.0,
+      "reason": "Deterministic alphabetical tie-breaker"
+    },
+    {
+      "dropped": "mode_1_variance",
+      "correlated_with": "mode_1_energy",
+      "r": 1.0,
+      "reason": "Deterministic alphabetical tie-breaker"
+    },
+    {
+      "dropped": "mode_4_variance",
+      "correlated_with": "mode_4_energy",
+      "r": 1.0,
+      "reason": "Deterministic alphabetical tie-breaker"
+    }
+  ],
+  "ablation_summary": {
+    "dimensionality": [
+      {
+        "k_features": 3,
+        "accuracy": 0.9636,
+        "f1_macro": 0.9515,
+        "accuracy_std": 0.0445,
+        "features_used": [
+          "elec_power_factor",
+          "raw_current_kurtosis",
+          "raw_current_mean_abs"
+        ]
+      },
+      {
+        "k_features": 5,
+        "accuracy": 0.9273,
+        "f1_macro": 0.903,
+        "accuracy_std": 0.068,
+        "features_used": [
+          "elec_power_factor",
+          "raw_current_kurtosis",
+          "raw_current_mean_abs",
+          "mode_3_form_factor",
+          "mode_1_peak_to_peak"
+        ]
+      },
+      {
+        "k_features": 8,
+        "accuracy": 0.9455,
+        "f1_macro": 0.9273,
+        "accuracy_std": 0.0445,
+        "features_used": [
+          "elec_power_factor",
+          "raw_current_kurtosis",
+          "raw_current_mean_abs",
+          "mode_3_form_factor",
+          "mode_1_peak_to_peak",
+          "mode_0_center_frequency_hz",
+          "mode_2_center_frequency_hz",
+          "mode_3_spectral_centroid"
+        ]
+      },
+      {
+        "k_features": 12,
+        "accuracy": 0.9273,
+        "f1_macro": 0.9061,
+        "accuracy_std": 0.068,
+        "features_used": [
+          "elec_power_factor",
+          "raw_current_kurtosis",
+          "raw_current_mean_abs",
+          "mode_3_form_factor",
+          "mode_1_peak_to_peak",
+          "mode_0_center_frequency_hz",
+          "mode_2_center_frequency_hz",
+          "mode_3_spectral_centroid",
+          "elec_voltage_thd",
+          "transient_inrush_ratio",
+          "mode_1_kurtosis",
+          "mode_4_spectral_centroid"
+        ]
+      },
+      {
+        "k_features": 16,
+        "accuracy": 0.9273,
+        "f1_macro": 0.903,
+        "accuracy_std": 0.068,
+        "features_used": [
+          "elec_power_factor",
+          "raw_current_kurtosis",
+          "raw_current_mean_abs",
+          "mode_3_form_factor",
+          "mode_1_peak_to_peak",
+          "mode_0_center_frequency_hz",
+          "mode_2_center_frequency_hz",
+          "mode_3_spectral_centroid",
+          "elec_voltage_thd",
+          "transient_inrush_ratio",
+          "mode_1_kurtosis",
+          "mode_4_spectral_centroid",
+          "elec_displacement_power_factor",
+          "mode_2_kurtosis",
+          "mode_4_crest_factor",
+          "mode_4_peak_to_peak"
+        ]
+      },
+      {
+        "k_features": 30,
+        "accuracy": 0.9636,
+        "f1_macro": 0.9515,
+        "accuracy_std": 0.0445,
+        "features_used": [
+          "elec_power_factor",
+          "raw_current_kurtosis",
+          "raw_current_mean_abs",
+          "mode_3_form_factor",
+          "mode_1_peak_to_peak",
+          "mode_0_center_frequency_hz",
+          "mode_2_center_frequency_hz",
+          "mode_3_spectral_centroid",
+          "elec_voltage_thd",
+          "transient_inrush_ratio",
+          "mode_1_kurtosis",
+          "mode_4_spectral_centroid",
+          "elec_displacement_power_factor",
+          "mode_2_kurtosis",
+          "mode_4_crest_factor",
+          "mode_4_peak_to_peak",
+          "mode_2_peak_to_peak",
+          "raw_current_dominant_frequency",
+          "mode_1_spectral_centroid",
+          "raw_current_spectral_centroid",
+          "mode_3_spectral_spread",
+          "mode_1_rms",
+          "raw_current_skewness",
+          "mode_1_form_factor",
+          "mode_2_spectral_centroid",
+          "elec_voltage_crest_factor",
+          "mode_3_kurtosis",
+          "mode_1_center_frequency_hz",
+          "mode_4_form_factor",
+          "mode_1_energy_ratio"
+        ]
+      },
+      {
+        "k_features": 50,
+        "accuracy": 0.9636,
+        "f1_macro": 0.9515,
+        "accuracy_std": 0.0445,
+        "features_used": [
+          "elec_power_factor",
+          "raw_current_kurtosis",
+          "raw_current_mean_abs",
+          "mode_3_form_factor",
+          "mode_1_peak_to_peak",
+          "mode_0_center_frequency_hz",
+          "mode_2_center_frequency_hz",
+          "mode_3_spectral_centroid",
+          "elec_voltage_thd",
+          "transient_inrush_ratio",
+          "mode_1_kurtosis",
+          "mode_4_spectral_centroid",
+          "elec_displacement_power_factor",
+          "mode_2_kurtosis",
+          "mode_4_crest_factor",
+          "mode_4_peak_to_peak",
+          "mode_2_peak_to_peak",
+          "raw_current_dominant_frequency",
+          "mode_1_spectral_centroid",
+          "raw_current_spectral_centroid",
+          "mode_3_spectral_spread",
+          "mode_1_rms",
+          "raw_current_skewness",
+          "mode_1_form_factor",
+          "mode_2_spectral_centroid",
+          "elec_voltage_crest_factor",
+          "mode_3_kurtosis",
+          "mode_1_center_frequency_hz",
+          "mode_4_form_factor",
+          "mode_1_energy_ratio",
+          "elec_reactive_power_q",
+          "raw_current_spectral_entropy",
+          "mode_0_spectral_centroid",
+          "raw_current_spectral_flatness",
+          "mode_2_spectral_spread",
+          "mode_0_skewness",
+          "vmd_reconstruction_rel_error",
+          "elec_voltage_form_factor",
+          "vmd_reconstruction_snr_db",
+          "mode_2_skewness",
+          "raw_voltage_skewness",
+          "mode_1_skewness",
+          "mode_4_spectral_spread",
+          "elec_voltage_peak",
+          "elec_voltage_rms",
+          "mode_3_skewness",
+          "mode_4_skewness",
+          "vmd_mode_clash_detected",
+          "transient_inrush_peak",
+          "transient_ptp"
+        ]
+      },
+      {
+        "k_features": 111,
+        "accuracy": 0.9636,
+        "f1_macro": 0.9515,
+        "accuracy_std": 0.0445,
+        "features_used": [
+          "elec_power_factor",
+          "raw_current_kurtosis",
+          "raw_current_mean_abs",
+          "mode_3_form_factor",
+          "mode_1_peak_to_peak",
+          "mode_0_center_frequency_hz",
+          "mode_2_center_frequency_hz",
+          "mode_3_spectral_centroid",
+          "elec_voltage_thd",
+          "transient_inrush_ratio",
+          "mode_1_kurtosis",
+          "mode_4_spectral_centroid",
+          "elec_displacement_power_factor",
+          "mode_2_kurtosis",
+          "mode_4_crest_factor",
+          "mode_4_peak_to_peak",
+          "mode_2_peak_to_peak",
+          "raw_current_dominant_frequency",
+          "mode_1_spectral_centroid",
+          "raw_current_spectral_centroid",
+          "mode_3_spectral_spread",
+          "mode_1_rms",
+          "raw_current_skewness",
+          "mode_1_form_factor",
+          "mode_2_spectral_centroid",
+          "elec_voltage_crest_factor",
+          "mode_3_kurtosis",
+          "mode_1_center_frequency_hz",
+          "mode_4_form_factor",
+          "mode_1_energy_ratio",
+          "elec_reactive_power_q",
+          "raw_current_spectral_entropy",
+          "mode_0_spectral_centroid",
+          "raw_current_spectral_flatness",
+          "mode_2_spectral_spread",
+          "mode_0_skewness",
+          "vmd_reconstruction_rel_error",
+          "elec_voltage_form_factor",
+          "vmd_reconstruction_snr_db",
+          "mode_2_skewness",
+          "raw_voltage_skewness",
+          "mode_1_skewness",
+          "mode_4_spectral_spread",
+          "elec_voltage_peak",
+          "elec_voltage_rms",
+          "mode_3_skewness",
+          "mode_4_skewness",
+          "vmd_mode_clash_detected",
+          "transient_inrush_peak",
+          "transient_ptp"
+        ]
+      }
+    ],
+    "domains": {
+      "1_Power_Only": {
+        "feature_count": 4,
+        "accuracy": 0.9273,
+        "f1_macro": 0.903
+      },
+      "2_Shape_Only": {
+        "feature_count": 32,
+        "accuracy": 0.9636,
+        "f1_macro": 0.9515
+      },
+      "3_VMD_Only": {
+        "feature_count": 65,
+        "accuracy": 0.9455,
+        "f1_macro": 0.9273
+      },
+      "4_MultiDomain_Elite": {
+        "feature_count": 16,
+        "accuracy": 0.9273,
+        "f1_macro": 0.903
+      }
+    }
+  }
+}

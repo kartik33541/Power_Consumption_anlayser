@@ -1,0 +1,623 @@
+{
+  "version": "1.0.0",
+  "phase": "Phase 8 \u2014 Leakage-Safe Train / Validation / Test Group Split",
+  "description": "Deterministic group-aware 3-way split grouped by house_id",
+  "config": {
+    "group_col": "house_id",
+    "id_col": "recording_id",
+    "label_col": "appliance_label",
+    "test_size": 0.2,
+    "val_size": 0.15,
+    "random_state": 42
+  },
+  "statistics": {
+    "total_samples": 77,
+    "train_samples": 49,
+    "val_samples": 13,
+    "test_samples": 15,
+    "total_houses": 29,
+    "train_houses": [
+      "house1",
+      "house11",
+      "house12",
+      "house14",
+      "house15",
+      "house16",
+      "house17",
+      "house18",
+      "house23",
+      "house26",
+      "house3",
+      "house30",
+      "house34",
+      "house4",
+      "house40",
+      "house49",
+      "house5",
+      "house6",
+      "house7"
+    ],
+    "val_houses": [
+      "house10",
+      "house33",
+      "house8",
+      "house9"
+    ],
+    "test_houses": [
+      "house13",
+      "house19",
+      "house2",
+      "house32",
+      "house39",
+      "house44"
+    ]
+  },
+  "audit_report": {
+    "status": "PASS",
+    "leakage_detected": false,
+    "violations": [],
+    "sample_counts": {
+      "train": 49,
+      "val": 13,
+      "test": 15,
+      "total": 77
+    },
+    "house_audit": {
+      "train_houses_count": 19,
+      "val_houses_count": 4,
+      "test_houses_count": 6,
+      "train_val_overlap": [],
+      "train_test_overlap": [],
+      "val_test_overlap": [],
+      "disjoint": true
+    },
+    "recording_audit": {
+      "train_recordings": 49,
+      "val_recordings": 13,
+      "test_recordings": 15,
+      "tv_overlap": [],
+      "tt_overlap": [],
+      "vt_overlap": [],
+      "disjoint": true
+    },
+    "class_audit": {
+      "total_classes": 11,
+      "train_classes_count": 11,
+      "val_classes_count": 11,
+      "test_classes_count": 11,
+      "missing_in_train": [],
+      "missing_in_val": [],
+      "missing_in_test": []
+    },
+    "class_distributions": {
+      "train": {
+        "Compact Fluorescent Lamp": 5,
+        "Fridge": 5,
+        "Fan": 5,
+        "Washing Machine": 5,
+        "Incandescent Light Bulb": 5,
+        "Hairdryer": 4,
+        "Microwave": 4,
+        "Air Conditioner": 4,
+        "Laptop": 4,
+        "Heater": 4,
+        "Vacuum": 4
+      },
+      "val": {
+        "Hairdryer": 2,
+        "Laptop": 2,
+        "Compact Fluorescent Lamp": 1,
+        "Fridge": 1,
+        "Microwave": 1,
+        "Air Conditioner": 1,
+        "Fan": 1,
+        "Heater": 1,
+        "Vacuum": 1,
+        "Washing Machine": 1,
+        "Incandescent Light Bulb": 1
+      },
+      "test": {
+        "Microwave": 2,
+        "Air Conditioner": 2,
+        "Heater": 2,
+        "Vacuum": 2,
+        "Compact Fluorescent Lamp": 1,
+        "Fridge": 1,
+        "Hairdryer": 1,
+        "Fan": 1,
+        "Laptop": 1,
+        "Washing Machine": 1,
+        "Incandescent Light Bulb": 1
+      }
+    }
+  },
+  "feature_specification": {
+    "feature_count": 16,
+    "features": [
+      "elec_power_factor",
+      "raw_current_kurtosis",
+      "raw_current_mean_abs",
+      "mode_3_form_factor",
+      "mode_1_peak_to_peak",
+      "mode_0_center_frequency_hz",
+      "mode_2_center_frequency_hz",
+      "mode_3_spectral_centroid",
+      "elec_voltage_thd",
+      "transient_inrush_ratio",
+      "mode_1_kurtosis",
+      "mode_4_spectral_centroid",
+      "elec_displacement_power_factor",
+      "mode_2_kurtosis",
+      "mode_4_crest_factor",
+      "mode_4_peak_to_peak"
+    ]
+  },
+  "artifacts": {
+    "dataset_npz": "ML\\data\\processed\\dataset_v1.npz",
+    "scaler_json": "ML\\configs\\scaler_v1.json"
+  },
+  "records": [
+    {
+      "recording_id": "1",
+      "house_id": "house1",
+      "appliance_label": "Compact Fluorescent Lamp",
+      "split": "train"
+    },
+    {
+      "recording_id": "34",
+      "house_id": "house3",
+      "appliance_label": "Compact Fluorescent Lamp",
+      "split": "train"
+    },
+    {
+      "recording_id": "54",
+      "house_id": "house4",
+      "appliance_label": "Compact Fluorescent Lamp",
+      "split": "train"
+    },
+    {
+      "recording_id": "72",
+      "house_id": "house5",
+      "appliance_label": "Compact Fluorescent Lamp",
+      "split": "train"
+    },
+    {
+      "recording_id": "76",
+      "house_id": "house6",
+      "appliance_label": "Compact Fluorescent Lamp",
+      "split": "train"
+    },
+    {
+      "recording_id": "6",
+      "house_id": "house1",
+      "appliance_label": "Fridge",
+      "split": "train"
+    },
+    {
+      "recording_id": "39",
+      "house_id": "house3",
+      "appliance_label": "Fridge",
+      "split": "train"
+    },
+    {
+      "recording_id": "61",
+      "house_id": "house4",
+      "appliance_label": "Fridge",
+      "split": "train"
+    },
+    {
+      "recording_id": "93",
+      "house_id": "house6",
+      "appliance_label": "Fridge",
+      "split": "train"
+    },
+    {
+      "recording_id": "117",
+      "house_id": "house7",
+      "appliance_label": "Fridge",
+      "split": "train"
+    },
+    {
+      "recording_id": "7",
+      "house_id": "house1",
+      "appliance_label": "Hairdryer",
+      "split": "train"
+    },
+    {
+      "recording_id": "62",
+      "house_id": "house4",
+      "appliance_label": "Hairdryer",
+      "split": "train"
+    },
+    {
+      "recording_id": "96",
+      "house_id": "house6",
+      "appliance_label": "Hairdryer",
+      "split": "train"
+    },
+    {
+      "recording_id": "118",
+      "house_id": "house7",
+      "appliance_label": "Hairdryer",
+      "split": "train"
+    },
+    {
+      "recording_id": "227",
+      "house_id": "house11",
+      "appliance_label": "Microwave",
+      "split": "train"
+    },
+    {
+      "recording_id": "247",
+      "house_id": "house12",
+      "appliance_label": "Microwave",
+      "split": "train"
+    },
+    {
+      "recording_id": "293",
+      "house_id": "house14",
+      "appliance_label": "Microwave",
+      "split": "train"
+    },
+    {
+      "recording_id": "315",
+      "house_id": "house16",
+      "appliance_label": "Microwave",
+      "split": "train"
+    },
+    {
+      "recording_id": "32",
+      "house_id": "house3",
+      "appliance_label": "Air Conditioner",
+      "split": "train"
+    },
+    {
+      "recording_id": "74",
+      "house_id": "house6",
+      "appliance_label": "Air Conditioner",
+      "split": "train"
+    },
+    {
+      "recording_id": "276",
+      "house_id": "house14",
+      "appliance_label": "Air Conditioner",
+      "split": "train"
+    },
+    {
+      "recording_id": "345",
+      "house_id": "house18",
+      "appliance_label": "Air Conditioner",
+      "split": "train"
+    },
+    {
+      "recording_id": "56",
+      "house_id": "house4",
+      "appliance_label": "Fan",
+      "split": "train"
+    },
+    {
+      "recording_id": "88",
+      "house_id": "house6",
+      "appliance_label": "Fan",
+      "split": "train"
+    },
+    {
+      "recording_id": "112",
+      "house_id": "house7",
+      "appliance_label": "Fan",
+      "split": "train"
+    },
+    {
+      "recording_id": "211",
+      "house_id": "house11",
+      "appliance_label": "Fan",
+      "split": "train"
+    },
+    {
+      "recording_id": "237",
+      "house_id": "house12",
+      "appliance_label": "Fan",
+      "split": "train"
+    },
+    {
+      "recording_id": "40",
+      "house_id": "house3",
+      "appliance_label": "Laptop",
+      "split": "train"
+    },
+    {
+      "recording_id": "67",
+      "house_id": "house4",
+      "appliance_label": "Laptop",
+      "split": "train"
+    },
+    {
+      "recording_id": "102",
+      "house_id": "house6",
+      "appliance_label": "Laptop",
+      "split": "train"
+    },
+    {
+      "recording_id": "129",
+      "house_id": "house7",
+      "appliance_label": "Laptop",
+      "split": "train"
+    },
+    {
+      "recording_id": "123",
+      "house_id": "house7",
+      "appliance_label": "Heater",
+      "split": "train"
+    },
+    {
+      "recording_id": "303",
+      "house_id": "house15",
+      "appliance_label": "Heater",
+      "split": "train"
+    },
+    {
+      "recording_id": "330",
+      "house_id": "house17",
+      "appliance_label": "Heater",
+      "split": "train"
+    },
+    {
+      "recording_id": "687",
+      "house_id": "house34",
+      "appliance_label": "Heater",
+      "split": "train"
+    },
+    {
+      "recording_id": "45",
+      "house_id": "house3",
+      "appliance_label": "Vacuum",
+      "split": "train"
+    },
+    {
+      "recording_id": "693",
+      "house_id": "house34",
+      "appliance_label": "Vacuum",
+      "split": "train"
+    },
+    {
+      "recording_id": "802",
+      "house_id": "house40",
+      "appliance_label": "Vacuum",
+      "split": "train"
+    },
+    {
+      "recording_id": "923",
+      "house_id": "house49",
+      "appliance_label": "Vacuum",
+      "split": "train"
+    },
+    {
+      "recording_id": "71",
+      "house_id": "house4",
+      "appliance_label": "Washing Machine",
+      "split": "train"
+    },
+    {
+      "recording_id": "462",
+      "house_id": "house23",
+      "appliance_label": "Washing Machine",
+      "split": "train"
+    },
+    {
+      "recording_id": "505",
+      "house_id": "house26",
+      "appliance_label": "Washing Machine",
+      "split": "train"
+    },
+    {
+      "recording_id": "594",
+      "house_id": "house30",
+      "appliance_label": "Washing Machine",
+      "split": "train"
+    },
+    {
+      "recording_id": "807",
+      "house_id": "house40",
+      "appliance_label": "Washing Machine",
+      "split": "train"
+    },
+    {
+      "recording_id": "50",
+      "house_id": "house4",
+      "appliance_label": "Incandescent Light Bulb",
+      "split": "train"
+    },
+    {
+      "recording_id": "107",
+      "house_id": "house7",
+      "appliance_label": "Incandescent Light Bulb",
+      "split": "train"
+    },
+    {
+      "recording_id": "232",
+      "house_id": "house12",
+      "appliance_label": "Incandescent Light Bulb",
+      "split": "train"
+    },
+    {
+      "recording_id": "278",
+      "house_id": "house14",
+      "appliance_label": "Incandescent Light Bulb",
+      "split": "train"
+    },
+    {
+      "recording_id": "320",
+      "house_id": "house17",
+      "appliance_label": "Incandescent Light Bulb",
+      "split": "train"
+    },
+    {
+      "recording_id": "138",
+      "house_id": "house8",
+      "appliance_label": "Compact Fluorescent Lamp",
+      "split": "val"
+    },
+    {
+      "recording_id": "183",
+      "house_id": "house10",
+      "appliance_label": "Fridge",
+      "split": "val"
+    },
+    {
+      "recording_id": "143",
+      "house_id": "house8",
+      "appliance_label": "Hairdryer",
+      "split": "val"
+    },
+    {
+      "recording_id": "163",
+      "house_id": "house9",
+      "appliance_label": "Hairdryer",
+      "split": "val"
+    },
+    {
+      "recording_id": "202",
+      "house_id": "house10",
+      "appliance_label": "Microwave",
+      "split": "val"
+    },
+    {
+      "recording_id": "148",
+      "house_id": "house9",
+      "appliance_label": "Air Conditioner",
+      "split": "val"
+    },
+    {
+      "recording_id": "158",
+      "house_id": "house9",
+      "appliance_label": "Fan",
+      "split": "val"
+    },
+    {
+      "recording_id": "168",
+      "house_id": "house9",
+      "appliance_label": "Laptop",
+      "split": "val"
+    },
+    {
+      "recording_id": "197",
+      "house_id": "house10",
+      "appliance_label": "Laptop",
+      "split": "val"
+    },
+    {
+      "recording_id": "193",
+      "house_id": "house10",
+      "appliance_label": "Heater",
+      "split": "val"
+    },
+    {
+      "recording_id": "668",
+      "house_id": "house33",
+      "appliance_label": "Vacuum",
+      "split": "val"
+    },
+    {
+      "recording_id": "173",
+      "house_id": "house9",
+      "appliance_label": "Washing Machine",
+      "split": "val"
+    },
+    {
+      "recording_id": "134",
+      "house_id": "house8",
+      "appliance_label": "Incandescent Light Bulb",
+      "split": "val"
+    },
+    {
+      "recording_id": "12",
+      "house_id": "house2",
+      "appliance_label": "Compact Fluorescent Lamp",
+      "split": "test"
+    },
+    {
+      "recording_id": "17",
+      "house_id": "house2",
+      "appliance_label": "Fridge",
+      "split": "test"
+    },
+    {
+      "recording_id": "18",
+      "house_id": "house2",
+      "appliance_label": "Hairdryer",
+      "split": "test"
+    },
+    {
+      "recording_id": "27",
+      "house_id": "house2",
+      "appliance_label": "Microwave",
+      "split": "test"
+    },
+    {
+      "recording_id": "272",
+      "house_id": "house13",
+      "appliance_label": "Microwave",
+      "split": "test"
+    },
+    {
+      "recording_id": "9",
+      "house_id": "house2",
+      "appliance_label": "Air Conditioner",
+      "split": "test"
+    },
+    {
+      "recording_id": "352",
+      "house_id": "house19",
+      "appliance_label": "Air Conditioner",
+      "split": "test"
+    },
+    {
+      "recording_id": "257",
+      "house_id": "house13",
+      "appliance_label": "Fan",
+      "split": "test"
+    },
+    {
+      "recording_id": "22",
+      "house_id": "house2",
+      "appliance_label": "Laptop",
+      "split": "test"
+    },
+    {
+      "recording_id": "267",
+      "house_id": "house13",
+      "appliance_label": "Heater",
+      "split": "test"
+    },
+    {
+      "recording_id": "633",
+      "house_id": "house32",
+      "appliance_label": "Heater",
+      "split": "test"
+    },
+    {
+      "recording_id": "777",
+      "house_id": "house39",
+      "appliance_label": "Vacuum",
+      "split": "test"
+    },
+    {
+      "recording_id": "838",
+      "house_id": "house44",
+      "appliance_label": "Vacuum",
+      "split": "test"
+    },
+    {
+      "recording_id": "868",
+      "house_id": "house44",
+      "appliance_label": "Washing Machine",
+      "split": "test"
+    },
+    {
+      "recording_id": "357",
+      "house_id": "house19",
+      "appliance_label": "Incandescent Light Bulb",
+      "split": "test"
+    }
+  ]
+}

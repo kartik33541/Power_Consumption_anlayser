@@ -106,6 +106,182 @@ class SignalRecord:
         )
 
 
+@dataclass
+class WindowRecord:
+    """
+    Canonical representation of a windowed slice of an electrical measurement.
+    
+    Produced by Phase 3 windowing from a certified SignalRecord.
+    Maintains complete provenance (parent_signal_id, recording_id, house_id)
+    to enable strictly leakage-free splitting in Phase 8.
+    """
+    window_id: str
+    parent_signal_id: str
+    recording_id: str
+    source_dataset: str
+    house_id: str                             # Location identifier for group-splitting
+    sampling_rate_hz: float                   # Must be explicit and > 0
+    window_type: str                          # 'transient', 'steady', or 'sliding'
+    window_start_sec: float                   # Relative start in seconds
+    window_end_sec: float                     # Relative end in seconds
+    start_sample_idx: int                     # Slice start index in parent
+    end_sample_idx: int                       # Slice end index in parent
+    
+    appliance_label: Optional[str] = None     # Ground truth Y (kept separate from features)
+    appliance_instance_id: Optional[str] = None
+    voltage: Optional[np.ndarray] = None      # 1D array in Volts
+    current: Optional[np.ndarray] = None      # 1D array in Amperes
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        """Enforces canonical window invariants."""
+        if not isinstance(self.sampling_rate_hz, (int, float)) or self.sampling_rate_hz <= 0:
+            raise ValueError(f"sampling_rate_hz must be a positive float, got {self.sampling_rate_hz}")
+        self.sampling_rate_hz = float(self.sampling_rate_hz)
+
+        if not self.window_id or not isinstance(self.window_id, str):
+            raise ValueError("window_id must be a non-empty string identifier")
+
+        if self.window_type not in ("transient", "steady", "sliding", "custom"):
+            raise ValueError(
+                f"Unknown window_type '{self.window_type}', expected 'transient', 'steady', 'sliding', or 'custom'"
+            )
+
+        if self.current is not None:
+            if not isinstance(self.current, np.ndarray):
+                self.current = np.asarray(self.current, dtype=np.float64)
+            if self.current.ndim != 1:
+                raise ValueError(f"current waveform must be 1-dimensional, got ndim={self.current.ndim}")
+            if not np.issubdtype(self.current.dtype, np.floating):
+                self.current = self.current.astype(np.float64)
+
+        if self.voltage is not None:
+            if not isinstance(self.voltage, np.ndarray):
+                self.voltage = np.asarray(self.voltage, dtype=np.float64)
+            if self.voltage.ndim != 1:
+                raise ValueError(f"voltage waveform must be 1-dimensional, got ndim={self.voltage.ndim}")
+            if not np.issubdtype(self.voltage.dtype, np.floating):
+                self.voltage = self.voltage.astype(np.float64)
+
+        if self.voltage is not None and self.current is not None:
+            if len(self.voltage) != len(self.current):
+                raise ValueError(
+                    f"Voltage and current length mismatch in window: {len(self.voltage)} vs {len(self.current)}"
+                )
+
+    @property
+    def sample_count(self) -> int:
+        """Returns the number of samples in the window."""
+        if self.current is not None:
+            return len(self.current)
+        if self.voltage is not None:
+            return len(self.voltage)
+        return 0
+
+    @property
+    def duration_seconds(self) -> float:
+        """Returns window duration in seconds."""
+        count = self.sample_count
+        if count == 0 or self.sampling_rate_hz <= 0:
+            return 0.0
+        return count / self.sampling_rate_hz
+
+    def summary(self) -> str:
+        """Quick diagnostic string."""
+        return (
+            f"WindowRecord(id='{self.window_id}', type='{self.window_type}', "
+            f"parent='{self.parent_signal_id}', house='{self.house_id}', "
+            f"samples={self.sample_count}, duration={self.duration_seconds:.4f}s)"
+        )
+
+
+@dataclass
+class VMDRecord:
+    """
+    Canonical representation of a Variational Mode Decomposition output.
+    
+    Produced by Phase 4 from a WindowRecord.
+    Contains the K decomposed intrinsic modal time series u_k(t), their
+    center frequencies, and reconstruction quality metrics.
+    Maintains complete provenance (house_id, recording_id, appliance_label)
+    to enable strictly leakage-free splitting in Phase 8.
+    """
+    record_id: str
+    parent_window_id: str
+    parent_signal_id: str
+    recording_id: str
+    source_dataset: str
+    house_id: str                             # Preserved for Phase 8 group-split
+    sampling_rate_hz: float                   # Must be explicit and > 0
+    window_type: str                          # 'transient', 'steady', or 'sliding'
+    K: int                                    # Number of modes
+    
+    modes: np.ndarray                         # 2D array of shape (K, N) in Amperes
+    center_frequencies_hz: np.ndarray         # 1D array of shape (K,) in Hz
+    reconstruction_snr_db: float              # Reconstruction Signal-to-Noise Ratio (dB)
+    reconstruction_error_norm: float          # Relative L2 reconstruction error norm
+    
+    appliance_label: Optional[str] = None     # Ground truth Y (kept separate from features)
+    appliance_instance_id: Optional[str] = None
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        """Enforces canonical VMD invariants."""
+        if not self.record_id or not isinstance(self.record_id, str):
+            raise ValueError("record_id must be a non-empty string identifier")
+
+        if not isinstance(self.K, int) or self.K <= 0:
+            raise ValueError(f"K must be a positive integer, got {self.K}")
+
+        if not isinstance(self.sampling_rate_hz, (int, float)) or self.sampling_rate_hz <= 0:
+            raise ValueError(f"sampling_rate_hz must be a positive float, got {self.sampling_rate_hz}")
+        self.sampling_rate_hz = float(self.sampling_rate_hz)
+
+        if not self.house_id or not isinstance(self.house_id, str):
+            raise ValueError("house_id must be a non-empty string identifier")
+
+        if not isinstance(self.modes, np.ndarray):
+            self.modes = np.asarray(self.modes, dtype=np.float64)
+        if self.modes.ndim != 2:
+            raise ValueError(f"modes array must be 2-dimensional (K, N), got ndim={self.modes.ndim}")
+        if self.modes.shape[0] != self.K:
+            raise ValueError(f"modes row count ({self.modes.shape[0]}) must equal K ({self.K})")
+        if not np.issubdtype(self.modes.dtype, np.floating):
+            self.modes = self.modes.astype(np.float64)
+
+        if not isinstance(self.center_frequencies_hz, np.ndarray):
+            self.center_frequencies_hz = np.asarray(self.center_frequencies_hz, dtype=np.float64)
+        if self.center_frequencies_hz.ndim != 1:
+            raise ValueError(
+                f"center_frequencies_hz must be 1-dimensional, got ndim={self.center_frequencies_hz.ndim}"
+            )
+        if len(self.center_frequencies_hz) != self.K:
+            raise ValueError(
+                f"center_frequencies_hz length ({len(self.center_frequencies_hz)}) must equal K ({self.K})"
+            )
+
+        self.reconstruction_snr_db = float(self.reconstruction_snr_db)
+        self.reconstruction_error_norm = float(self.reconstruction_error_norm)
+
+    @property
+    def sample_count(self) -> int:
+        """Returns the number of time-domain samples N in each mode."""
+        return self.modes.shape[1] if self.modes.ndim == 2 else 0
+
+    @property
+    def reconstructed_signal(self) -> np.ndarray:
+        """Computes the sum of all K modes: f_recon(t) = sum_k u_k(t)."""
+        return np.sum(self.modes, axis=0)
+
+    def summary(self) -> str:
+        """Quick diagnostic string."""
+        return (
+            f"VMDRecord(id='{self.record_id}', parent_window='{self.parent_window_id}', "
+            f"K={self.K}, samples={self.sample_count}, SNR={self.reconstruction_snr_db:.2f}dB, "
+            f"house='{self.house_id}', appliance='{self.appliance_label}')"
+        )
+
+
 class BaseDatasetAdapter(abc.ABC):
     """
     Abstract Base Class for all dataset adapters.

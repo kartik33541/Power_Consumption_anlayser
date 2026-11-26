@@ -1,0 +1,30 @@
+{
+  "name": "nilm-site",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node inline_css.js",
+    "preview": "vite preview",
+    "lint": "eslint src",
+    "poster": "node scripts/generate_poster.mjs",
+    "test:runtime": "node test_runtime.js"
+  },
+  "dependencies": {
+    "@gsap/react": "^2.1.2",
+    "gsap": "^3.12.7",
+    "lenis": "^1.1.20",
+    "lucide-react": "^0.475.0",
+    "ogl": "^1.0.11",
+    "puppeteer-core": "^25.18.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^10.15.0",
+    "lighthouse": "^12.8.2",
+    "vite": "^6.2.0"
+  }
+}

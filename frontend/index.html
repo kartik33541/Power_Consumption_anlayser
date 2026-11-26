@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NILM Signal Lab — Non-Intrusive Load Monitoring Explainer</title>
+    <meta name="description" content="Technical signal explainer for Non-Intrusive Load Monitoring (NILM): single-point mains sensing, Variational Mode Decomposition (VMD), and multi-label inference. Project in active development." />
+    <meta name="theme-color" content="#0b0f17" />
+    <link rel="canonical" href="https://nilm-signal-lab.example.com/" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/media/sct013-clamp.svg" />
+    <link rel="apple-touch-icon" href="/media/sct013-clamp.svg" />
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="NILM Signal Lab — One wire. Many appliances. Which ones are on?" />
+    <meta property="og:description" content="Interactive signal explainer for Non-Intrusive Load Monitoring (NILM), VMD decomposition, and multi-label appliance inference." />
+    <meta property="og:url" content="https://nilm-signal-lab.example.com/" />
+    <meta property="og:image" content="https://nilm-signal-lab.example.com/media/og-preview.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="NILM Signal Lab — Non-Intrusive Load Monitoring Explainer" />
+    <meta name="twitter:description" content="Interactive signal explainer for Non-Intrusive Load Monitoring (NILM) and Variational Mode Decomposition (VMD)." />
+    <meta name="twitter:image" content="https://nilm-signal-lab.example.com/media/og-preview.jpg" />
+
+    <!-- Preload Hero Poster Image with high fetch priority for immediate LCP paint -->
+    <link rel="preload" as="image" href="/media/hero-poster.966a6c70.webp" type="image/webp" fetchpriority="high" />
+
+    <!-- Optimized Non-blocking Font Delivery -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    </noscript>
+
+    <script>
+      // Immediate theme initialization to prevent Flash of Unstyled/Wrong Theme (FOUT)
+      (function() {
+        try {
+          var saved = localStorage.getItem('nilm-theme');
+          var prefDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = saved ? saved : (prefDark ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+          if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <div style="max-width:680px;margin:48px auto;padding:24px;font-family:system-ui,sans-serif;background:#111827;color:#f8fafc;border:1px solid #334155;border-radius:12px;">
+        <h1 style="margin-top:0;">NILM Signal Lab — Non-Intrusive Load Monitoring</h1>
+        <p>JavaScript is disabled in your browser. Enable JavaScript to interact with the live mains waveform simulator, the real FFT-based Variational Mode Decomposition (VMD) explorer, and the 12-stage runtime pipeline.</p>
+        <p>Note: This project is in active development; the hardware monitoring device and trained model are not yet released.</p>
+      </div>
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.env.*
+*.log
+.vercel/
+.netlify/
+docs/*
+!docs/ASSETS.md
+qa/RESULTS.md
+!src/lib/

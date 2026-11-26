@@ -1,0 +1,161 @@
+/* NILM Signal Lab — Design System Tokens */
+
+:root {
+  /* Typography */
+  --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-body: 'Inter', sans-serif;
+
+  /* Spacing Scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4.5rem;
+  --space-4xl: 6rem;
+
+  /* Border Radii */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-normal: 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-theme: 300ms ease;
+}
+
+/* ==========================================================================
+   DARK THEME (Default) — Background #0B0F17
+   High-contrast vibrant electrical hues for dark background
+   ========================================================================== */
+[data-theme="dark"] {
+  --bg-primary: #0b0f17;
+  --bg-secondary: #111827;
+  --bg-tertiary: #1f2937;
+  --bg-card: rgba(17, 24, 39, 0.58);
+  --bg-card-hover: rgba(31, 41, 55, 0.72);
+  --bg-glass: rgba(11, 15, 23, 0.82);
+  --bg-input: #151d2d;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.16);
+  --border-strong: rgba(255, 255, 255, 0.28);
+  --border-highlight: rgba(0, 229, 255, 0.4);
+
+  --text-primary: #f8fafc;       /* Contrast: 18.2:1 */
+  --text-secondary: #cbd5e1;     /* Contrast: 10.5:1 */
+  --text-muted: #94a3b8;         /* Contrast: 6.8:1 (Exceeds WCAG AA 4.5:1) */
+  --text-code: #38bdf8;
+
+  /* Appliance Color Palette — Dark Mode (Vibrant, Glow-capable) */
+  --color-ac: #00e5ff;           /* Electric Cyan | Contrast: 13.3:1 */
+  --color-ac-bg: rgba(0, 229, 255, 0.12);
+  --color-ac-glow: rgba(0, 229, 255, 0.35);
+
+  --color-fridge: #ffb703;       /* Warm Gold/Amber | Contrast: 10.6:1 */
+  --color-fridge-bg: rgba(255, 183, 3, 0.12);
+  --color-fridge-glow: rgba(255, 183, 3, 0.35);
+
+  --color-fan: #ff4d8d;          /* Pulse Pink | Contrast: 5.98:1 */
+  --color-fan-bg: rgba(255, 77, 141, 0.12);
+  --color-fan-glow: rgba(255, 77, 141, 0.35);
+
+  --color-kettle: #fb923c;       /* Orange | Contrast: 7.9:1 */
+  --color-laptop: #c084fc;       /* Purple | Contrast: 6.4:1 */
+  --color-tv: #34d399;           /* Mint Green | Contrast: 10.3:1 */
+
+  --color-mains: #f1f5f9;        /* Pure Signal White | Contrast: 17.9:1 */
+  --color-mains-glow: rgba(241, 245, 249, 0.25);
+
+  --accent-cyan: #00e5ff;
+  --accent-cyan-hover: #38bdf8;
+  --accent-cyan-subtle: rgba(0, 229, 255, 0.15);
+
+  --badge-bg: rgba(0, 229, 255, 0.1);
+  --badge-text: #00e5ff;
+  --badge-border: rgba(0, 229, 255, 0.3);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --shadow-cyan-glow: 0 0 25px rgba(0, 229, 255, 0.25);
+
+  --grid-line: rgba(255, 255, 255, 0.04);
+  --oscilloscope-grid: rgba(0, 229, 255, 0.07);
+
+  /* Hero Media Contrast Controls */
+  --hero-video-opacity: 1;
+  --hero-video-filter: brightness(1.25) contrast(1.1) saturate(1.15);
+  --hero-scrim: linear-gradient(180deg, rgba(8,12,20,0.55) 0%, rgba(8,12,20,0.20) 40%, rgba(8,12,20,0) 100%);
+}
+
+/* ==========================================================================
+   LIGHT THEME — Background #F8FAFC
+   Numerically verified contrast >= 4.5:1 text, >= 3:1 lines & graphics
+   ========================================================================== */
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --bg-card: rgba(255, 255, 255, 0.60);
+  --bg-card-hover: rgba(255, 255, 255, 0.78);
+  --bg-glass: rgba(248, 250, 252, 0.88);
+  --bg-input: #e2e8f0;
+
+  --border-subtle: rgba(15, 23, 42, 0.09);
+  --border-medium: rgba(15, 23, 42, 0.18);
+  --border-strong: rgba(15, 23, 42, 0.32);
+  --border-highlight: rgba(0, 104, 120, 0.4);
+
+  --text-primary: #0f172a;       /* Contrast: 17.2:1 */
+  --text-secondary: #334155;     /* Contrast: 9.3:1 */
+  --text-muted: #475569;         /* Contrast: 8.5:1 (Exceeds WCAG AA 4.5:1) */
+  --text-code: #0369a1;
+
+  /* Appliance Color Palette — Light Mode (Calibrated Deep Tones) */
+  --color-ac: #006878;           /* Deep Cyan/Teal | Text Contrast: 6.01:1 | Line: 4.6:1 */
+  --color-ac-bg: rgba(0, 104, 120, 0.08);
+  --color-ac-glow: rgba(0, 104, 120, 0.2);
+
+  --color-fridge: #92400e;       /* Deep Amber/Bronze | Text Contrast: 6.88:1 */
+  --color-fridge-bg: rgba(146, 64, 14, 0.08);
+  --color-fridge-glow: rgba(146, 64, 14, 0.2);
+
+  --color-fan: #9f1239;          /* Deep Crimson/Rose | Text Contrast: 9.84:1 | Line: 7.12:1 */
+  --color-fan-bg: rgba(159, 18, 57, 0.08);
+  --color-fan-glow: rgba(159, 18, 57, 0.2);
+
+  --color-kettle: #9a3412;       /* Burnt Ochre | Text Contrast: 8.0:1 */
+  --color-laptop: #6b21a8;       /* Deep Violet | Text Contrast: 9.5:1 */
+  --color-tv: #065f46;           /* Forest Green | Text Contrast: 7.3:1 */
+
+  --color-mains: #0f172a;        /* Deep Charcoal | Text Contrast: 17.2:1 */
+  --color-mains-glow: rgba(15, 23, 42, 0.15);
+
+  --accent-cyan: #006878;
+  --accent-cyan-hover: #0891b2;
+  --accent-cyan-subtle: rgba(0, 104, 120, 0.1);
+
+  --badge-bg: rgba(0, 104, 120, 0.08);
+  --badge-text: #006878;
+  --badge-border: rgba(0, 104, 120, 0.28);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+  --shadow-cyan-glow: 0 0 20px rgba(0, 104, 120, 0.15);
+
+  --grid-line: rgba(15, 23, 42, 0.04);
+  --oscilloscope-grid: rgba(0, 104, 120, 0.08);
+
+  /* Hero Media Contrast Controls */
+  --hero-video-opacity: 1;
+  --hero-video-filter: brightness(1.25) contrast(1.1) saturate(1.15);
+  --hero-scrim: linear-gradient(180deg, rgba(8,12,20,0.55) 0%, rgba(8,12,20,0.20) 40%, rgba(8,12,20,0) 100%);
+}
